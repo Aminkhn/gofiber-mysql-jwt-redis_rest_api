@@ -1,8 +1,10 @@
 package routes
 
 import (
-	"demoapp/database"
-	"demoapp/models"
+	"errors"
+
+	"github.com/aminkhn/golang-rest-api/database"
+	"github.com/aminkhn/golang-rest-api/models"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -26,6 +28,7 @@ func CreateResponseUser(userModel models.User) User {
 	}
 }
 
+// create user
 func CreateUser(c *fiber.Ctx) error {
 	var user models.User
 	if err := c.BodyParser(&user); err != nil {
@@ -36,6 +39,7 @@ func CreateUser(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseUser)
 }
 
+// get all users info
 func GetUsers(c *fiber.Ctx) error {
 	users := []models.User{}
 
@@ -46,4 +50,25 @@ func GetUsers(c *fiber.Ctx) error {
 		responseUsers = append(responseUsers, responseUser)
 	}
 	return c.Status(200).JSON(responseUsers)
+}
+
+// find specific user by id
+func findUser(id int, user *models.User) error {
+	database.Database.Db.Find(&user, "id = ?", id)
+	if user.ID == 0 {
+		return errors.New("user does not exist!")
+	}
+	return nil
+}
+func GetUser(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	var user models.User
+	if err != nil {
+		return c.Status(400).JSON("please ensure that :id is correct")
+	}
+	if err := findUser(id, &user); err != nil {
+		return c.Status(200).JSON(err.Error())
+	}
+
+	return c.SendString("test")
 }

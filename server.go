@@ -12,8 +12,12 @@ func setupRoutes(app *fiber.App) {
 	// Welcome EndPoint
 	app.Get("/api", welcome)
 	// User EndPoint
+	app.Group("/api/v1/users")
 	app.Post("/api/v1/users", routes.CreateUser)
 	app.Get("/api/v1/users", routes.GetUsers)
+	app.Get("/api/v1/user/:id")
+	app.Put("/api/v1/user/:id")
+	app.Delete("/api/v1/user/:id")
 }
 func main() {
 	database.ConnectDb()
