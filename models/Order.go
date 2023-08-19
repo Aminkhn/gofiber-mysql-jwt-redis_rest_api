@@ -1,9 +1,13 @@
 package models
 
+import "gorm.io/gorm"
+
 type Order struct {
-	ID        uint    `json:"id" gorm:"primaryKey"`
-	UserId    int     `json:"user_id"`
-	user      User    `gorm:"foreignKey:UserId"`
-	ProductId int     `json:"product_id"`
-	Product   Product `gorm:"foreignKey:ProductId"`
+	gorm.Model
+	ID     uint `json:"id" gorm:"primaryKey"`
+	UserID uint `json:"user_id"`
+	//user      User    `gorm:"foreignKey:UserId"`
+	//ProductID uint     `json:"product_id"`
+	//Product   Product `gorm:"foreignKey:ProductId"`
+	Products []Product
 }

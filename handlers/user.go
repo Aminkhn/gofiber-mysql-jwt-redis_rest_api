@@ -1,4 +1,4 @@
-package routes
+package handlers
 
 import (
 	"errors"
@@ -28,7 +28,12 @@ func CreateResponseUser(userModel models.User) User {
 	}
 }
 
-// create user
+// welcome
+func Welcome(c *fiber.Ctx) error {
+	return c.SendString("Hello welcome Here!")
+}
+
+// create use
 func CreateUser(c *fiber.Ctx) error {
 	var user models.User
 	if err := c.BodyParser(&user); err != nil {
@@ -71,4 +76,10 @@ func GetUser(c *fiber.Ctx) error {
 	}
 
 	return c.SendString("test")
+}
+func DeleteUser(c *fiber.Ctx) error {
+	return c.SendString("test")
+}
+func EditUser(c *fiber.Ctx) error {
+	return c.SendString("Test")
 }
