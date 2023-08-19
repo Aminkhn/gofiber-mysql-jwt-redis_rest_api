@@ -20,7 +20,7 @@ func GetProduct(c *fiber.Ctx) error {
 	db := database.Database.Db
 	var product models.Product
 	db.Find(&product, id)
-	if product.Name == "" {
+	if product.Title == "" {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
 	}
 	return c.JSON(fiber.Map{"status": "success", "message": "Product found", "data": product})
@@ -44,7 +44,7 @@ func DeleteProduct(c *fiber.Ctx) error {
 
 	var product models.Product
 	db.First(&product, id)
-	if product.Name == "" {
+	if product.Title == "" {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No product found with ID", "data": nil})
 	}
 	db.Delete(&product)

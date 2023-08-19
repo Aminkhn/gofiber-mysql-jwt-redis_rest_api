@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// establishing connection to database + migrations
-	database.ConnectDb()
+	database.MysqlConnectDb()
 	// new instance of fiber
 	app := fiber.New()
 	// setting up URIs routes
