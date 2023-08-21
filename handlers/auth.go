@@ -49,7 +49,7 @@ func isEmail(email string) bool {
 	return err == nil
 }
 
-// Login get user and password
+// Login gets user and password
 func Login(c *fiber.Ctx) error {
 	type LoginInput struct {
 		Identity string `json:"identity"`

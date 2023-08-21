@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// Protected protect routes
+// Protected protects routes
 func Protected() func(*fiber.Ctx) error {
 	return jwtware.New(jwtware.Config{
 		SigningKey:   jwtware.SigningKey{Key: []byte("secret")},

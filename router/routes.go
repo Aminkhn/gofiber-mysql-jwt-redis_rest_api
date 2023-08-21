@@ -11,7 +11,7 @@ import (
 func SetupRoutes(app *fiber.App) {
 	// Middleware
 	api := app.Group("/api", logger.New())
-	api.Get("/", handlers.Hello)
+	api.Get("/healthchecker", handlers.Healthchecker)
 
 	// Auth
 	auth := api.Group("/auth")
@@ -19,6 +19,7 @@ func SetupRoutes(app *fiber.App) {
 
 	// User
 	user := api.Group("/user")
+	user.Get("/", handlers.GetAllUser)
 	user.Get("/:id", handlers.GetUser)
 	user.Post("/", handlers.CreateUser)
 	user.Patch("/:id", middlewares.Protected(), handlers.UpdateUser)
