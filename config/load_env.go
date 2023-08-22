@@ -4,11 +4,11 @@ import "github.com/spf13/viper"
 
 type Configuration struct {
 	// DataBase Setup
-	DBHost     string `mapstructure:"SQL_HOST"`
-	DBUserame  string `mapstructure:"SQL_USER"`
-	DBPassword string `mapstructure:"SQL_PASSWORD"`
-	DBName     string `mapstructure:"SQL_DB"`
-	DBPort     string `mapstructure:"SQL_PORT"`
+	DBHost     string `mapstructure:"DB_HOST"`
+	DBUserame  string `mapstructure:"DB_USER"`
+	DBPassword string `mapstructure:"DB_PASSWORD"`
+	DBName     string `mapstructure:"DB_DB"`
+	DBPort     string `mapstructure:"DB_PORT"`
 	// Redis Setup
 	RedisUrl string `mapstructure:"REDIS_URL"`
 	// jwt secret
