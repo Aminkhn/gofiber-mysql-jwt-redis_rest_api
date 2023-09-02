@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"net/mail"
+	"strconv"
 	"strings"
 	"time"
 
@@ -129,9 +130,9 @@ func Logout(c *fiber.Ctx) error {
 		if err != nil {
 			return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{"error": err.Error()})
 		}
-		userId := claims["user_id"]
+		userId := strconv.FormatFloat(claims["user_id"].(float64), 'f', -1, 64)
 
-		_, err = database.RedisDb.Db.Set(userId.(string), token.Raw, time.Hour*1).Result()
+		_, err = database.RedisDb.Db.Set(userId, token.Raw, time.Hour*1).Result()
 		if err != nil {
 			return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{"status": "fail", "message": err.Error()})
 		}

@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"log"
+	"strconv"
 	"strings"
 
 	"github.com/aminkhn/mysql-rest-api/config"
@@ -28,7 +29,7 @@ func IsBlackListed(c *fiber.Ctx) error {
 		if err != nil {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Can not Decode jwt", "data": err.Error()})
 		}
-		userId := claims["user_id"].(string)
+		userId := strconv.FormatFloat(claims["user_id"].(float64), 'f', -1, 64)
 
 		blacListed, err := database.RedisDb.Db.Get(userId).Result()
 		if err != nil && err.Error() != "redis: nil" {
