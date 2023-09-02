@@ -7,10 +7,13 @@ type Configuration struct {
 	DBHost     string `mapstructure:"DB_HOST"`
 	DBUserame  string `mapstructure:"DB_USER"`
 	DBPassword string `mapstructure:"DB_PASSWORD"`
-	DBName     string `mapstructure:"DB_DB"`
+	DBName     string `mapstructure:"DB_NAME"`
 	DBPort     string `mapstructure:"DB_PORT"`
 	// Redis Setup
 	RedisUrl string `mapstructure:"REDIS_URL"`
+	// Server Setting
+	ServerUrl   string `mapstructure:"SERVER_URL"`
+	SERVER_Port string `mapstructure:"SERVER_PORT"`
 	// jwt secret
 	Secret string `mapstructure:"SECRET"`
 }

@@ -1,4 +1,5 @@
 *.exe 
 *.db
 instructions.txt
+app.env
 tmp

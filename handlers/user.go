@@ -3,18 +3,13 @@ package handlers
 import (
 	"strconv"
 
-	"github.com/aminkhn/golang-rest-api/database"
-	"github.com/aminkhn/golang-rest-api/models"
+	"github.com/aminkhn/mysql-rest-api/database"
+	"github.com/aminkhn/mysql-rest-api/logic"
+	"github.com/aminkhn/mysql-rest-api/models"
 	"github.com/golang-jwt/jwt"
-	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gofiber/fiber/v2"
 )
-
-func hashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
 
 func validToken(t *jwt.Token, id string) bool {
 	n, err := strconv.Atoi(id)
@@ -35,12 +30,13 @@ func validUser(id string, p string) bool {
 	if user.Username == "" {
 		return false
 	}
-	if !CheckPasswordHash(p, user.Password) {
+	if !logic.CheckPasswordHash(p, user.Password) {
 		return false
 	}
 	return true
 }
 
+// gets all users in db
 func GetAllUser(c *fiber.Ctx) error {
 	db := database.Database.Db
 	var user models.User
@@ -80,7 +76,7 @@ func CreateUser(c *fiber.Ctx) error {
 
 	}
 
-	hash, err := hashPassword(user.Password)
+	hash, err := logic.HashPassword(user.Password)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't hash password", "data": err})
 
@@ -99,8 +95,34 @@ func CreateUser(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
 }
 
-// UpdateUser update user
-func UpdateUser(c *fiber.Ctx) error {
+// UpdateUser update user put
+func UpdateUserPut(c *fiber.Ctx) error {
+	type UpdateUserInput struct {
+		Name string `json:"name"`
+	}
+	var uui UpdateUserInput
+	if err := c.BodyParser(&uui); err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
+	}
+	id := c.Params("id")
+	token := c.Locals("user").(*jwt.Token)
+
+	if !validToken(token, id) {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
+	}
+
+	db := database.Database.Db
+	var user models.User
+
+	db.First(&user, id)
+	user.Name = uui.Name
+	db.Save(&user)
+
+	return c.JSON(fiber.Map{"status": "success", "message": "User successfully updated", "data": user})
+}
+
+// UpdateUser update user patch
+func UpdateUserPatch(c *fiber.Ctx) error {
 	type UpdateUserInput struct {
 		Name string `json:"name"`
 	}

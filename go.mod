@@ -1,4 +1,4 @@
-module github.com/aminkhn/golang-rest-api
+module github.com/aminkhn/mysql-rest-api
 
 go 1.21
 

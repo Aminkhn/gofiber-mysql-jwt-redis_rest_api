@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/aminkhn/golang-rest-api/config"
+	"github.com/aminkhn/mysql-rest-api/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -15,8 +15,10 @@ type MysqlDbInstance struct {
 	Db *gorm.DB
 }
 
+// Database is mysql database ~object
 var Database MysqlDbInstance
 
+// Establishing Mysql Connection
 func MysqlConnectDb(config *config.Configuration) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config.DBUserame, config.DBPassword, config.DBHost, config.DBPort, config.DBName)

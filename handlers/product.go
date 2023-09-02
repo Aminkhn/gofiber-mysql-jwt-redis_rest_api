@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/aminkhn/golang-rest-api/database"
-	"github.com/aminkhn/golang-rest-api/models"
+	"github.com/aminkhn/mysql-rest-api/database"
+	"github.com/aminkhn/mysql-rest-api/models"
 	"github.com/gofiber/fiber/v2"
 )
 
